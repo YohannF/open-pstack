@@ -1,0 +1,25 @@
+queue_rules:
+  - name: default
+    batch_size: 1
+    checks_timeout: null
+    queue_conditions: []
+    merge_conditions: []
+
+merge_protections_settings:
+  auto_merge_conditions:
+    - base = main
+
+merge_protections:
+  - name: Queue ready pull requests
+    description: Automatically queue non-draft pull requests targeting main after the required gates pass.
+    if:
+      - base = main
+    success_conditions:
+      - -draft
+      - check-success=verify
+      - check-success=Unfret
+
+commands_restrictions:
+  requeue:
+    conditions:
+      - sender-permission >= write
