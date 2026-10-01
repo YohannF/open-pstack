@@ -3,7 +3,9 @@ queue_rules:
     batch_size: 1
     checks_timeout: null
     queue_conditions: []
-    merge_conditions: []
+    merge_conditions:
+      - check-success=verify
+      - check-success=Unfret
 
 merge_protections_settings:
   auto_merge_conditions:
