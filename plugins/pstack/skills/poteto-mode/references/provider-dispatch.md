@@ -29,6 +29,10 @@ This read-time rule makes an older installed sheet use the latest family revisio
 
 `fast` is part of Cursor's Grok selector, not a Grok Build CLI model or effort flag. The portable Grok route pins the current CLI model `grok-4.7`. The first-run Grok effort is `xhigh`.
 
+## Loading the model sheet
+
+The sheet lives at `<config-home>/pstack-models.md`, resolved by the [harness config-home rule](codex-tools.md#harness-config-homes). On Claude Code it is not in context. Before the parent resolves its first configured role or panel in a run, it reads that file once and keeps its rows for the rest of the run. On Codex, the bounded block in `<config-home>/AGENTS.md` already holds the same bytes. A missing sheet or a missing role row means that role keeps the default its skill names. Apply read-time normalization to the loaded rows. Children never read the sheet.
+
 ## The parent owns the route
 
 The top-level harness resolves the route once. A child receives an assigned provider, model, effort, access mode, prompt, working directory, and output path. A child never detects the harness, chooses a provider, or launches another model. Environment markers may corroborate the top-level harness before fan-out, but nested processes inherit parent markers and must not use them for routing.

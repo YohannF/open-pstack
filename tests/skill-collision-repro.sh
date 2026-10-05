@@ -81,25 +81,27 @@ dispatch="$repo/plugins/pstack/skills/poteto-mode/references/provider-dispatch.m
 # Config-home port invariant (#120): guard upstream merges against daily-home writes.
 config_mapping="$repo/plugins/pstack/skills/poteto-mode/references/codex-tools.md"
 config_home_bad=""
-# The legacy import is rendered text, not a hard-coded write destination.
-if sed 's|@~/.claude/pstack-models.md||g' "$setup" | grep -nE '~/(\.claude|\.codex)|\$HOME/(\.claude|\.codex)'; then
-  config_home_bad="setup still names a literal default config path outside the legacy import"$'\n'
+# Setup names no literal default config path; every destination goes through config-home.
+if grep -nE '~/(\.claude|\.codex)|\$HOME/(\.claude|\.codex)' "$setup"; then
+  config_home_bad="setup names a literal default config path"$'\n'
 fi
+# Fork: Claude reads the sheet on demand, so setup never imports it into CLAUDE.md.
 for source in "$setup" "$config_mapping"; do
-  grep -Fxq '@~/.claude/pstack-models.md' "$source" || config_home_bad="${config_home_bad}$source lacks the literal legacy default-home import"$'\n'
-  for rule in \
-    'When `<config-home>` is the default home, render exactly' \
-    'Only when `CLAUDE_CONFIG_DIR` redirects the home' \
-    'render exactly `@./pstack-models.md`' \
-    'basename is `pstack-models.md`' \
-    'On a rerun, replace that one line in place, preserving all unrelated bytes.' \
-    'If zero matching import lines exist, append one.' \
-    'If more than one exists, stop and report inconsistent state before either write'; do
-    grep -Fq "$rule" "$source" || config_home_bad="${config_home_bad}$source lacks Claude import rule: $rule"$'\n'
-  done
-  if grep -nE 'backslash|space-escaped|absolute resolved' "$source"; then
-    config_home_bad="${config_home_bad}$source still specifies absolute or escaped Claude imports"$'\n'
+  if grep -nE '^@.*pstack-models\.md' "$source"; then
+    config_home_bad="${config_home_bad}$source renders a Claude sheet import"$'\n'
   fi
+  for rule in \
+    'basename is `pstack-models.md`' \
+    'If one matching import line exists, remove that one line, preserving all unrelated bytes.' \
+    'If zero matching import lines exist, leave `<config-home>/CLAUDE.md` unchanged.' \
+    'If more than one exists, stop and report inconsistent state before either write' \
+    '#loading-the-model-sheet'; do
+    grep -Fq "$rule" "$source" || config_home_bad="${config_home_bad}$source lacks Claude on-demand rule: $rule"$'\n'
+  done
+done
+grep -Fq '## Loading the model sheet' "$dispatch" || config_home_bad="${config_home_bad}provider-dispatch lacks the on-demand sheet loading section"$'\n'
+for panel_skill in arena architect interrogate swarm; do
+  grep -Fq 'provider-dispatch.md#loading-the-model-sheet' "$repo/plugins/pstack/skills/$panel_skill/SKILL.md" || config_home_bad="${config_home_bad}$panel_skill does not point at on-demand sheet loading"$'\n'
 done
 grep -Fq 'require an explicit source choice before normalization or probing' "$setup" || config_home_bad="${config_home_bad}setup does not require explicit source selection before normalization or probing"$'\n'
 grep -Fq '[harness config-home rule](../poteto-mode/references/codex-tools.md#harness-config-homes)' "$setup" || config_home_bad="${config_home_bad}setup does not reference the canonical config-home rule"$'\n'

@@ -13,13 +13,7 @@ Resolve the current parent's config home once: Claude Code uses nonempty `CLAUDE
 
 Empty and unset variables both select the default. Preserve spaces in the resolved path by quoting shell file operands. In shared instructions, `<config-home>` means this resolved parent-specific directory, not literal text to write. Use that same home for setup's sheet and integration writes, snapshots, restoration, and readback.
 
-The Claude integration is the one `@` import line in `<config-home>/CLAUDE.md` whose target's basename is `pstack-models.md`, regardless of its existing directory or path spelling. Select current state using [setup-pstack step 2](../../setup-pstack/SKILL.md#2-load-current-state). When `<config-home>` is the default home, render exactly the legacy line:
-
-```text
-@~/.claude/pstack-models.md
-```
-
-Only when `CLAUDE_CONFIG_DIR` redirects the home, render exactly `@./pstack-models.md`. This relative import resolves from the importing file's directory, where the sheet also lives, so the import line contains no config-directory characters. On a rerun, replace that one line in place, preserving all unrelated bytes. If zero matching import lines exist, append one. If more than one exists, stop and report inconsistent state before either write; do not append another import or guess which one to replace.
+Claude Code has no sheet integration. The parent reads `<config-home>/pstack-models.md` on demand per [Loading the model sheet](provider-dispatch.md#loading-the-model-sheet). A legacy Claude import is the one `@` import line in `<config-home>/CLAUDE.md` whose target's basename is `pstack-models.md`, regardless of its existing directory or path spelling. Select current state using [setup-pstack step 2](../../setup-pstack/SKILL.md#2-load-current-state). If one matching import line exists, remove that one line, preserving all unrelated bytes. If zero matching import lines exist, leave `<config-home>/CLAUDE.md` unchanged. If more than one exists, stop and report inconsistent state before either write.
 
 ## Tool actions
 

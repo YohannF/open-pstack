@@ -13,6 +13,10 @@ The shipped `pstack-runner` no longer loads the caller project's environment fil
 
 - Document Linux Landlock and bubblewrap prerequisites for bounded Grok lanes, including affected Claude Code cloud hosts, and link setup failures to the shared host and parent prerequisites without changing runner behavior (#56).
 
+## 0.15.10-yohann.1 reads the Claude model sheet on demand
+
+Claude Code no longer loads `pstack-models.md` into every session. `provider-dispatch.md` gains a Loading the model sheet step: the parent reads `<config-home>/pstack-models.md` once, before it resolves its first configured role or panel in a run. Arena, Architect, Interrogate, and Swarm point at that step. `/setup-pstack` writes only the sheet on Claude and removes a legacy `CLAUDE.md` import, stopping on more than one. Codex keeps its bounded `AGENTS.md` block. The static config-home invariant and `tests/setup-config-home-repro.sh` now assert that no Claude import remains.
+
 ## 0.15.10 syncs to Cursor pstack 0.15.10
 
 This fork tracks Cursor pstack 0.15.10 at `4e5b1cf2ccb0ea3716f08c8ee0a5856b5ab93536`, on top of Open Pstack 1.5.0.
