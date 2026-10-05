@@ -151,6 +151,9 @@ The table uses the short upstream names. Claude Code exposes each native skill w
 | `/fix-merge-conflicts` | non-interactively resolve merge conflicts, validate, finalize |
 | `/get-pr-comments` | fetch and summarize review comments from the active PR |
 | `/what-did-i-get-done` | summarize authored commits over a user-chosen period |
+| `/benchmark-checklist` | vet a perf measurement before reporting or acting on it |
+| `/correct` | turn repeated agent mistakes into checks that make them impossible |
+| `/poteto-help` | route a pstack question to the right skill, playbook, or principle |
 
 ## Subagents
 

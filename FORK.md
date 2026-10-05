@@ -4,11 +4,12 @@ Personal fork of [ericlitman/open-pstack](https://github.com/ericlitman/open-pst
 
 ## Differences from upstream
 
+- Cursor pstack 0.15.10 is synced ahead of upstream open-pstack (see `CHANGES.md` and `UPSTREAM.md`).
 - `/setup-pstack` stores a requested effort per role lane. One family can run at `medium` in one role and `xhigh` in another, and setup probes every distinct pair.
 
 ## Versions
 
-Claude Code refreshes an installed plugin only when its version string changes. Every change to this fork bumps the `-yohann.N` suffix in `.claude-plugin/marketplace.json`, `plugins/pstack/.claude-plugin/plugin.json`, and `plugins/pstack/.codex-plugin/plugin.json`, then:
+Claude Code refreshes an installed plugin only when its version string changes. Every change to this fork bumps the `-yohann.N` suffix in `.claude-plugin/marketplace.json`, `plugins/pstack/.claude-plugin/plugin.json`, `plugins/pstack/.codex-plugin/plugin.json`, and the version row of `UPSTREAM.md`, then:
 
 ```bash
 claude plugin marketplace update open-pstack && claude plugin update pstack@open-pstack

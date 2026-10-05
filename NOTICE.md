@@ -21,6 +21,7 @@ This plugin is a port of upstream MIT-licensed work. All upstream copyright noti
 | `plugins/pstack/skills/` (0.15.0 prose changes and the new `principle-attack-the-premise` and `principle-test-behavior-not-implementation` leaves), `plugins/pstack/assets/logo.png`, `README-UPSTREAM.md` | [cursor/plugins/pstack @ 71ed0d1](https://github.com/cursor/plugins/tree/71ed0d1076fec562c1b74ee353121a8d00f75382/pstack) | (c) 2026 Lauren Tan | MIT | [LICENSE](LICENSE) |
 | `plugins/pstack/skills/poteto-mode/SKILL.md` (0.15.1 reply-writing evidence rule) | [cursor/plugins/pstack @ f8abedd](https://github.com/cursor/plugins/tree/f8abeddd1862dc73704e3d719dd73df0d51b8c71/pstack) | (c) 2026 Lauren Tan | MIT | [LICENSE](LICENSE) |
 | `plugins/pstack/skills/` (0.15.2 to 0.15.5 changes: three-model defaults, code-ready rounds, owner authority, prompt cuts, decision-trail runs, `show-me-your-work/scripts/log.sh`), `README-UPSTREAM.md` | [cursor/plugins/pstack @ 12d587d](https://github.com/cursor/plugins/tree/12d587dfb20741cafc376c42c696c5f6e2a64487/pstack) | (c) 2026 Lauren Tan | MIT | [LICENSE](LICENSE) |
+| `plugins/pstack/skills/` (0.15.6 to 0.15.10 changes: fresh subagents, hourly ticks, PR headings, perf mantras, Architect red flags, and the new `benchmark-checklist`, `correct`, `poteto-help`, and `principle-explain-the-number` skills), `README-UPSTREAM.md` | [cursor/plugins/pstack @ 4e5b1cf](https://github.com/cursor/plugins/tree/4e5b1cf2ccb0ea3716f08c8ee0a5856b5ab93536/pstack) | (c) 2026 Lauren Tan | MIT | [LICENSE](LICENSE) |
 
 ## What changed in the port
 

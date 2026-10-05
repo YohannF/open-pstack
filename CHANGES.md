@@ -13,6 +13,14 @@ The shipped `pstack-runner` no longer loads the caller project's environment fil
 
 - Document Linux Landlock and bubblewrap prerequisites for bounded Grok lanes, including affected Claude Code cloud hosts, and link setup failures to the shared host and parent prerequisites without changing runner behavior (#56).
 
+## 1.5.0-yohann.2 syncs to Cursor pstack 0.15.10
+
+This fork tracks Cursor pstack 0.15.10 at `4e5b1cf2ccb0ea3716f08c8ee0a5856b5ab93536`, on top of Open Pstack 1.5.0.
+
+Imported: fresh subagents by default (a new task, fix round, or queue item goes to a fresh agent with consolidated scope), plain-words alternatives instead of a reply token under full autonomy, owner pushes after every verifiable unit, the merge-prep `merge-tree` check, PR bodies under `##` headings with a `What changed` section, the conditional built-in PR tool rule, the seven performance mantras in Perf issue and Hillclimb, Architect's agent-proof design screen, Swarm worker respawn, the schema-first TypeScript example, and four new skills: `benchmark-checklist`, `correct`, `poteto-help`, and `principle-explain-the-number`.
+
+Adapted: Autopilot-full, Autopilot-stack, and Multi-phase plan arm an hourly `/loop 1h` tick. The `standing orders` objective that stood in for Cursor's `/goal` is dropped with it. The port keeps its observation-only tick and its affirmative-evidence stuck rule. `poteto-help` is rewritten for Claude Code and Codex. `benchmark-checklist` and `principle-explain-the-number` stay model-invocable. The static routed-skill invariant now includes `benchmark-checklist`.
+
 ## Config-home port correction (#120)
 
 Setup resolves the active harness's config home through `poteto-mode/references/codex-tools.md`: nonempty `CLAUDE_CONFIG_DIR` or `CODEX_HOME`, falling back to `$HOME/.claude` or `$HOME/.codex` for unset or empty values. The model sheet, global instruction integration, current-state reads, snapshots, restoration, and readback all use that directory. Claude keeps the literal `@~/.claude/pstack-models.md` import at the default home and renders exactly `@./pstack-models.md` for a redirected home, keeping spaces and `#` in the config-directory name out of the import line. It identifies the existing import by the target basename `pstack-models.md`, replaces one matching line in place, appends when none exist, and stops before writing if more than one exists. Codex retains its exact-byte bounded block. Default-home behavior, role defaults, probes, and confirmation are unchanged.
