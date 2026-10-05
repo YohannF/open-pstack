@@ -9,7 +9,9 @@ Personal fork of [ericlitman/open-pstack](https://github.com/ericlitman/open-pst
 
 ## Versions
 
-Claude Code refreshes an installed plugin only when its version string changes. Every change to this fork bumps the `-yohann.N` suffix in `.claude-plugin/marketplace.json`, `plugins/pstack/.claude-plugin/plugin.json`, `plugins/pstack/.codex-plugin/plugin.json`, and the version row of `UPSTREAM.md`, then:
+The fork uses Cursor pstack's version number, not open-pstack's. After a Cursor sync, the version is exactly Cursor's (`0.15.10`). A fork-only change between two syncs adds a `-yohann.N` suffix to that number (`0.15.10-yohann.1`, then `-yohann.2`). The next Cursor sync drops the suffix.
+
+Claude Code refreshes an installed plugin only when its version string changes, so every change bumps it. The version lives in `.claude-plugin/marketplace.json`, `plugins/pstack/.claude-plugin/plugin.json`, `plugins/pstack/.codex-plugin/plugin.json`, and the `open-pstack version` row of `UPSTREAM.md`. Then:
 
 ```bash
 claude plugin marketplace update open-pstack && claude plugin update pstack@open-pstack
@@ -21,4 +23,4 @@ claude plugin marketplace update open-pstack && claude plugin update pstack@open
 git fetch upstream && git merge upstream/main
 ```
 
-On a version conflict, keep upstream's number and re-apply the `-yohann.N` suffix.
+On a version conflict with open-pstack, keep the Cursor version this fork tracks.

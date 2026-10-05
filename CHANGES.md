@@ -13,7 +13,7 @@ The shipped `pstack-runner` no longer loads the caller project's environment fil
 
 - Document Linux Landlock and bubblewrap prerequisites for bounded Grok lanes, including affected Claude Code cloud hosts, and link setup failures to the shared host and parent prerequisites without changing runner behavior (#56).
 
-## 1.5.0-yohann.2 syncs to Cursor pstack 0.15.10
+## 0.15.10 syncs to Cursor pstack 0.15.10
 
 This fork tracks Cursor pstack 0.15.10 at `4e5b1cf2ccb0ea3716f08c8ee0a5856b5ab93536`, on top of Open Pstack 1.5.0.
 

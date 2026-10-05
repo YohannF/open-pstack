@@ -10,9 +10,9 @@ open-pstack tracks [Cursor's pstack](https://github.com/cursor/plugins/tree/main
 | Path | `pstack/` |
 | Commit | `4e5b1cf2ccb0ea3716f08c8ee0a5856b5ab93536` |
 | Upstream version | `0.15.10` |
-| open-pstack version | `1.5.0-yohann.2` |
+| open-pstack version | `0.15.10` |
 
-The table above is the current Cursor sync point. This fork's 1.5.0-yohann.2 imports the 0.15.10 sync on top of Open Pstack 1.5.0. `README-UPSTREAM.md` preserves the upstream pstack README verbatim. `CHANGES.md` and `NOTICE.md` describe the adaptations and provenance.
+The table above is the current Cursor sync point. This fork imports the 0.15.10 sync on top of Open Pstack 1.5.0 and uses Cursor's version number; see `FORK.md`. `README-UPSTREAM.md` preserves the upstream pstack README verbatim. `CHANGES.md` and `NOTICE.md` describe the adaptations and provenance.
 
 ## Upstream-only exclusions
 
