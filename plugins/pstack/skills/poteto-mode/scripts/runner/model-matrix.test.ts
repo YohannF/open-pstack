@@ -51,8 +51,8 @@ const SHEET_ROLES = [
 ] as const;
 const SETUP_SECTION_ORDER = [
   "### 2. Load current state",
-  "### 3. Parse per-family efforts",
-  "### 4. Collect one requested effort per family",
+  "### 3. Parse per-role efforts",
+  "### 4. Collect requested efforts per role",
   "### 5. Probe the requested pairs",
   "### 6. Render, preserving role families",
   "### 7. Confirm and commit",
@@ -349,7 +349,9 @@ describe("model matrix", () => {
     expect(setup).toContain("Do not invent a precedence rule.");
     expect(setup).toContain("Do not probe or write while any inconsistency is unresolved.");
     expect(setup).toContain("A failed probe writes nothing:");
-    expect(setup).toContain("Run one probe per family");
+    expect(setup).toContain("Run one probe per family-and-effort pair");
+    expect(setup).toContain("Mixed efforts within one family are valid");
+    expect(setup).not.toContain("one normalized effort per family");
     expect(setup).toContain("normalized complete role map from step 2");
     expect(setup).toContain("starts with `claude-fable-` or `claude-opus-`");
     expect(setup).toContain("preserving the provider, effort, role, and lane order");

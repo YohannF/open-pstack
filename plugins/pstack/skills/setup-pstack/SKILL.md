@@ -1,11 +1,11 @@
 ---
 name: setup-pstack
-description: Configure pstack's provider-qualified models, per-family requested effort, and parent-owned routes per role. Verifies the assigned native and external lanes before writing the override sheet. Use for /setup-pstack, "configure pstack models", or changing pstack's model choices.
+description: Configure pstack's provider-qualified models, per-role requested effort, and parent-owned routes per role. Verifies the assigned native and external lanes before writing the override sheet. Use for /setup-pstack, "configure pstack models", or changing pstack's model choices.
 ---
 
 # Setup pstack
 
-Configure one portable model sheet for the current parent harness. Read [`provider-dispatch.md`](../poteto-mode/references/provider-dispatch.md) before probing or writing anything. Its model matrix, descriptor grammar, and route table are the contract. Choose one requested effort per assigned matrix family. Do not add a second configuration file, a runtime resolver, or a weaker-model fallback.
+Configure one portable model sheet for the current parent harness. Read [`provider-dispatch.md`](../poteto-mode/references/provider-dispatch.md) before probing or writing anything. Its model matrix, descriptor grammar, and route table are the contract. Each role lane carries its own requested effort, so one family may run at different efforts in different roles. Do not add a second configuration file, a runtime resolver, or a weaker-model fallback.
 
 Resolve `<config-home>` once using the [harness config-home rule](../poteto-mode/references/codex-tools.md#harness-config-homes). Use it for all current-state reads, writes, snapshots, restoration, and readback.
 
@@ -39,17 +39,17 @@ Treat the normalized values as current role-to-family assignments. Overlay those
 
 Then ask whether to keep these role-to-family assignments or change named roles. Keeping them is the default. Apply only role changes the operator names; never offer a reset of a customized sheet to the first-run assignments. A changed role may use any model-matrix family, `inherit-parent`, or `auto`.
 
-### 3. Parse per-family efforts
+### 3. Parse per-role efforts
 
-Read the model matrix. Every non-alias value must match `<provider>:<model>@<effort>`. Map it to exactly one matrix family by `(provider, model)`, matching a kept `codex:gpt-5.6-sol` to the Sol row, require its effort to appear in that row's Selectable efforts cell, and collect the effort. Reject `ultra` for every row whose Selectable efforts cell does not list it. `inherit-parent` and `auto` rows carry no family effort.
+Read the model matrix. Every non-alias value must match `<provider>:<model>@<effort>`. Map it to exactly one matrix family by `(provider, model)`, matching a kept `codex:gpt-5.6-sol` to the Sol row, require its effort to appear in that row's Selectable efforts cell, and collect the effort for that role lane. Reject `ultra` for every row whose Selectable efforts cell does not list it. `inherit-parent` and `auto` rows carry no effort.
 
-An unmatched provider/model, out-of-domain effort, or duplicate role is inconsistent state. Stop, show the conflicting rows verbatim, and ask for an explicit matrix family or alias replacement. If one or more families have mixed efforts, show every conflicting family and role row, then ask for one normalized effort per family from its Selectable efforts cell. Do not invent a precedence rule. Do not probe or write while any inconsistency is unresolved.
+An unmatched provider/model, out-of-domain effort, or duplicate role is inconsistent state. Stop, show the conflicting rows verbatim, and ask for an explicit matrix family or alias replacement. Mixed efforts within one family are valid: each lane keeps its own effort. Do not invent a precedence rule. Do not probe or write while any inconsistency is unresolved.
 
-One distinct effort per family is the current value. A family with no non-alias occurrence is unassigned: do not ask for its effort, check its CLI, or probe it. A family that a step 2 role change newly assigns takes its matrix Default effort as the proposed value.
+Each lane's effort is its current value. A family with no non-alias occurrence is unassigned: do not ask for its effort, check its CLI, or probe it. A lane that a step 2 role change newly assigns takes its family's matrix Default effort as the proposed value.
 
-### 4. Collect one requested effort per family
+### 4. Collect requested efforts per role
 
-Ask one effort question for each assigned family. Name each model, its current or proposed value, and the Selectable efforts from its matrix row. Empty input keeps that value. On a first run, state the assigned families' matrix defaults before asking. On a rerun, state the parsed values without offering to reset customized role lanes.
+Show every assigned role lane with its family, current or proposed effort, and the Selectable efforts from its matrix row. On a first run, state the matrix defaults. On a rerun, state the parsed values without offering to reset customized role lanes. Then ask which efforts to change. The operator may set one effort for a whole family, which rewrites every lane of that family, or set an effort on named roles only. Apply only the changes the operator names. Empty input keeps every value.
 
 ### 5. Probe the requested pairs
 
@@ -62,7 +62,7 @@ If required access is blocked, explain the affected assigned families and the re
 
 If all chosen families are native, no external CLI permission check or probe is needed; the separate final-write check still applies. When the effective permissions allow the selected external lanes, proceed with the existing routes and requested efforts unchanged. Never change sandbox settings or escalate permissions as part of setup.
 
-Probe only the selected `provider:model@effort` pair of each assigned family. Run one probe per family in the role map, even when two families share a provider. Do not enumerate or offer older models as substitutes. A failed probe writes nothing: report the failing pair and provider, stop, and keep the active sheet plus parent integration bytes unchanged. A failed first run creates neither artifact.
+Probe every distinct `provider:model@effort` pair in the role map. Run one probe per family-and-effort pair, even when two families share a provider or one family appears at several efforts. Do not enumerate or offer older models as substitutes. A failed probe writes nothing: report the failing pair and provider, stop, and keep the active sheet plus parent integration bytes unchanged. A failed first run creates neither artifact.
 
 If a Grok probe fails because the host cannot enforce its bounded sandbox, see [Host and parent prerequisites](../poteto-mode/references/provider-dispatch.md#host-and-parent-prerequisites); keep the active configuration unchanged.
 
@@ -84,7 +84,7 @@ Build the new sheet in memory. Do not write it yet.
 - First run: start from the complete role assignments in step 7, with the step 2 role changes applied.
 - Rerun: start from the normalized complete role map from step 2, with the step 2 role changes applied, preserving each loaded row's lane order and family (or alias) per lane.
 
-Rewrite every matrix-family descriptor to `provider:model@<requested effort for that family>`, using the Sol model chosen in step 2. Leave `inherit-parent` and `auto` unchanged. An effort-only rerun cannot change a role's family. Changing Grok's effort updates every Grok occurrence and does not move a Sol role onto Grok. Refuse an unqualified slug, an unavailable route, a model outside the model matrix other than a kept `gpt-5.6-sol`, or a provider/model mismatch.
+Rewrite every matrix-family descriptor to `provider:model@<requested effort for that lane>`, using the Sol model chosen in step 2. Leave `inherit-parent` and `auto` unchanged. An effort-only rerun cannot change a role's family. A family-wide effort change updates every occurrence of that family; a role-level change updates only that role's lane. Neither moves a Sol role onto Grok. Refuse an unqualified slug, an unavailable route, a model outside the model matrix other than a kept `gpt-5.6-sol`, or a provider/model mismatch.
 
 ### 7. Confirm and commit
 
