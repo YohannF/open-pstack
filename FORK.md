@@ -5,6 +5,7 @@ Personal fork of [ericlitman/open-pstack](https://github.com/ericlitman/open-pst
 ## Differences from upstream
 
 - Cursor pstack 0.15.10 is synced ahead of upstream open-pstack (see `CHANGES.md` and `UPSTREAM.md`).
+- On Claude Code, the model sheet is read on demand when a configured role launches. Setup no longer imports it into `CLAUDE.md`, so sessions that never use pstack never load it. Codex keeps its `AGENTS.md` block.
 - `/setup-pstack` stores a requested effort per role lane. One family can run at `medium` in one role and `xhigh` in another, and setup probes every distinct pair.
 
 ## Versions

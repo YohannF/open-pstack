@@ -195,7 +195,7 @@ The port is editorial, not mechanical. Anywhere upstream pstack assumed Cursor-s
 | Cursor cloud agents (`environment: "cloud"`, `cloud_base_branch`) | Local background subagents (`run_in_background: true`), isolated by git worktree |
 | Cursor's `/goal` (standing objective across turns) | The program objective written into the run's standing orders and restated in the todolist |
 | The Cursor agent store (path in the system prompt) | `~/.claude/orchestrate/<project-slug>/`, which survives the session restarts a multi-day program expects |
-| Model rule `~/.cursor/rules/pstack-models.mdc` | Override sheet `~/.claude/pstack-models.md`, included from `CLAUDE.md` |
+| Model rule `~/.cursor/rules/pstack-models.mdc` | Override sheet `~/.claude/pstack-models.md`, read on demand when a configured role launches |
 | Multi-model panels (arena, architect, interrogate) | Provider dispatch runs the upstream three-model panel: `claude:opus@max`, `codex:gpt-6.1-sol@max`, `grok:grok-4.7@xhigh`. Same-provider lanes stay native; external lanes use the bundled runner. |
 
 ### Cross-vendor dispatch

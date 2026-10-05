@@ -29,7 +29,7 @@ Check the state that changes the answer, and mention it only when it does:
 ## Get set up
 
 1. Install the plugin. The repository README's Install section has the Claude Code and Codex commands.
-2. Run [`/setup-pstack`](../setup-pstack/SKILL.md). It maps a model and a requested effort to each role, probes every pair, and writes `pstack-models.md`. Claude Code loads it through an import in `CLAUDE.md`, and Codex through a block in `AGENTS.md`. It applies to new sessions.
+2. Run [`/setup-pstack`](../setup-pstack/SKILL.md). It maps a model and a requested effort to each role, probes every pair, and writes `pstack-models.md`. Claude Code reads it only when a configured role launches, and Codex mirrors it in a block in `AGENTS.md`.
 3. Start a real task with `/poteto-mode`, a goal, and a check that can pass or fail.
 
 The [README](https://github.com/YohannF/open-pstack#readme) has the details. Offer to word their first prompt with them.
@@ -122,7 +122,7 @@ Principles are one-rule skills that `/poteto-mode` reads and cites in its replie
 |---|---|
 | The mode stopped applying after a few turns | Start the next task with `/poteto-mode`. On Codex, add the standing `AGENTS.md` instruction. |
 | A question got treated as the next step of the last task | Say "new task", or say the turn doesn't need the mode. |
-| A new model choice had no effect | The sheet from `/setup-pstack` loads at session start. Start a new session. |
+| A new model choice had no effect | On Codex, the `AGENTS.md` block loads at session start, so start a new session. On Claude Code, the sheet is read once per run, so start a new run. |
 | An external lane dropped out | Read its receipt. Rerun `/setup-pstack` to re-probe the CLI and its login. |
 | Runs cost more than expected | See the cost paragraph under Get set up. |
 | Parallel agents overwrote each other | Give each writer its own worktree. |

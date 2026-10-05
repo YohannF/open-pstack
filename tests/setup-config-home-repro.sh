@@ -26,8 +26,8 @@ Run the printed commands in an operator terminal. Install the exact candidate,
 invoke /setup-pstack through the real parent, complete probes and confirmation,
 and refuse permission to write outside the redirected directories. Retain the
 native transcripts and provider receipts. Then run --verify, rerun setup without
-changes, and run --verify again to assert byte-identical output. Start a fresh
-parent session and demonstrate the sheet is loaded. Verification below checks
+changes, and run --verify again to assert byte-identical output. Launch a
+configured role and demonstrate the parent reads the sheet. Verification below checks
 artifacts, not live invocation or loaded-sheet proof; those require transcripts.
 
 Do not run old instructions that explicitly target daily paths without a native
@@ -62,8 +62,8 @@ try {
   fs.writeFileSync(integration, sentinel + '@~/.claude/pstack-models.md\n');
   let result = verify();
   assert.equal(result.status, 1, result.stdout + result.stderr);
-  assert.match(result.stderr, /single relative sheet import/);
-  fs.writeFileSync(integration, sentinel + '@./pstack-models.md\n');
+  assert.match(result.stderr, /Claude still imports the model sheet/);
+  fs.writeFileSync(integration, sentinel);
   for (const changed of [rows.replace('claude:opus@max', 'auto'), rows.replace('@max', '@high')]) {
     fs.writeFileSync(sheet, changed);
     result = verify();
@@ -75,7 +75,7 @@ try {
     result = verify();
     assert.equal(result.status, 0, result.stdout + result.stderr);
   }
-  console.log('ok: static imported-sheet fixture rejects stale assignments and legacy redirected imports; preserved assignments and unchanged rerun pass');
+  console.log('ok: static imported-sheet fixture rejects stale assignments and a leftover Claude sheet import; preserved assignments and unchanged rerun pass');
   console.log('No live harness was invoked; HOME and USER and daily configuration were unchanged.');
 } finally { fs.rmSync(run, {recursive: true, force: true}); }
 JS
@@ -115,7 +115,7 @@ const sentinel = fs.readFileSync(path.join(run, 'sentinel'), 'utf8');
 if (!text.startsWith(sentinel)) fail('unrelated integration bytes changed');
 if (meta.harness === 'claude') {
   const includes = text.split('\n').filter(line => line.startsWith('@') && line.includes('pstack-models.md'));
-  if (includes.length !== 1 || includes[0] !== '@./pstack-models.md') fail('Claude include is not the single relative sheet import');
+  if (includes.length !== 0) fail('Claude still imports the model sheet');
 } else {
   const begin = '<!-- pstack:models:begin -->';
   const end = '<!-- pstack:models:end -->';
