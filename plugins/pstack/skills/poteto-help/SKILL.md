@@ -40,10 +40,7 @@ If cost is the worry, say where the tokens go and how to spend fewer. pstack spe
 
 `/poteto-mode` matches the task to a playbook, copies the playbook's steps into the todo list, and runs the other skills as the steps need them. A step it skips stays in the list as `skip: <reason>`. A good prompt states the goal and how to tell it's done. It doesn't list skills, because a hand-written sequence tends to drop or reorder steps the playbook would keep.
 
-Whether `/poteto-mode` runs on its own depends on the harness:
-
-- Claude Code injects a SessionStart instruction that routes every non-trivial engineering task through `pstack:poteto-mode`. User instructions in `CLAUDE.md` or `AGENTS.md` take precedence over it.
-- Codex has no plugin hook runtime. Invoke `pstack:poteto-mode` by name for each task, or add a standing instruction to `~/.codex/AGENTS.md`.
+`/poteto-mode` runs only when invoked. On Claude Code, type `/poteto-mode` or ask for poteto's style. On Codex, invoke `pstack:poteto-mode` by name. For always-on routing, add a standing instruction to `CLAUDE.md` or `~/.codex/AGENTS.md`.
 
 Mid-session, "new task" makes the mode match a fresh playbook. `/poteto-mode` already uses `poteto-agent` for the subagents its playbook steps spawn. To get the same style from a subagent of your own on Claude Code, spawn it with `subagent_type: "pstack:poteto-agent"`. On Codex, spawn an agent told to read `poteto-mode` first.
 

@@ -22,7 +22,7 @@ This repo ships as a Claude Code marketplace containing one plugin (`pstack`).
 /reload-plugins
 ```
 
-The plugin auto-fires through a `SessionStart` hook on startup, `/clear`, and post-compact. The hook injects a small mandate that routes non-trivial engineering work into `poteto-mode`; the full skill loads only when invoked. Dispatched subagents ignore the mandate, and explicit user instructions take precedence. To opt out, delete `hooks/hooks.json` from the installed copy at `~/.claude/plugins/cache/open-pstack/pstack/<version>/hooks/hooks.json`; a plugin update restores it.
+The plugin does not auto-fire. Invoke `/poteto-mode`, or ask for poteto's style, and the full skill loads then. This fork removed upstream's `SessionStart` hook, which told the model to load `poteto-mode` for every non-trivial task.
 
 ### Codex
 
@@ -62,12 +62,11 @@ The marketplace install is the normal user path. Direct links are only for testi
 │   ├── skills/                       # 54 skills shared by Claude Code and Codex
 │   │   ├── poteto-mode/references/{codex-tools,provider-dispatch}.md  # tool + provider routing
 │   │   └── poteto-mode/scripts/      # bun/bash/node tooling: watch-pr, orch, runner, check-plan.mjs, worktree-audit.sh
-│   ├── hooks/                        # SessionStart auto-fire: injects the poteto-mode mandate (Claude Code only)
 │   └── agents/                       # Claude subagents, including native Fable and Opus lanes at each selectable effort
 ├── tests/skill-collision-repro.sh    # native-skill package invariants and Claude invocation checks
 ├── LICENSE                           # pstack upstream MIT
 ├── LICENSE-cursor-team-kit           # cursor-team-kit upstream MIT
-├── LICENSE-superpowers               # superpowers upstream MIT (hook runner)
+├── LICENSE-superpowers               # superpowers upstream MIT
 ├── NOTICE.md                         # attribution table
 ├── UPSTREAM.md                       # current Cursor sync point and update procedure
 ├── CHANGES.md                        # per-skill substitution audit
@@ -85,7 +84,6 @@ The Codex build shares one `skills/` tree with the Claude Code build. Nothing is
 - **Package surface.** The native `skills/` tree is the only workflow source. The plugin ships no `commands/` layer and does not link prompts into `~/.codex/prompts/`. Codex would migrate such files into duplicate source-command skills while loading the native skill tree. The 23 `principle-*` leaves declare `user-invocable: false`. Claude keeps them out of its user picker; Codex 0.149.0 currently shows them despite that metadata ([#8](https://github.com/ericlitman/open-pstack/issues/8)).
 - **Tool and built-in mapping.** Claude tool names and built-in skills resolve through [`codex-tools.md`](../plugins/pstack/skills/poteto-mode/references/codex-tools.md). Model execution resolves separately through [`provider-dispatch.md`](../plugins/pstack/skills/poteto-mode/references/provider-dispatch.md), so Codex can keep Sol native while invoking Claude and Grok externally.
 - **Subagents.** The `Agent` tool maps to Codex `spawn_agent` / `wait_agent`, enabled by `multi_agent = true`. Parallel fan-out is multiple `spawn_agent` calls in one turn. If the native Codex lane is unavailable, record that lane as a dropout; external Claude and Grok lanes still run, and no provider is silently substituted. There is no `poteto-agent` subagent type on Codex; route ad-hoc subagents by dispatching a `spawn_agent` told to read `poteto-mode` first.
-- **Auto-fire.** The `hooks/` SessionStart injection is Claude Code-only; Codex has no plugin hook runtime. Enter `pstack:poteto-mode` by name, or add a standing instruction to `~/.codex/AGENTS.md` if you want the same always-on routing.
 - **Models.** `/setup-pstack` writes provider-qualified descriptors with a requested effort per role lane, so one family can run at different efforts in different roles (`low`, `medium`, `high`, `xhigh`, `max`, and `ultra` where the model's CLI lists it, today only Sol). The first-run panel is Opus max, GPT-6.1 Sol max, and Grok 4.7 xhigh; Fable stays selectable with its native agents. Fable and Opus use Claude's rolling aliases. Runtime dispatch normalizes older versioned descriptors in memory, so an installed sheet stops pinning immediately. A setup rerun persists that migration while keeping each role's family and effort. In Codex, Sol uses native `spawn_agent`; Claude and Grok use the deterministic external runner. In Claude Code, Fable and Opus use native agents; Sol and Grok use the runner. Children never detect the parent or reroute themselves. The `bug-fix`, `perf-issue`, and `hillclimb` roles stay on GPT-6.1 Sol max instead of upstream's Grok 4.7 default.
 
 Verified in fresh installed Claude Code and Codex sessions: the user-facing skills are discovered and namespaced under `pstack`; both parents fan out the configured panel through the documented native/external route table, retain long-running handles without a default timeout, and cross-judge only after every candidate is terminal. The `principle-*` leaves remain available for `poteto-mode` to read by path. Claude honors their `user-invocable: false` metadata; Codex 0.149.0 does not ([#8](https://github.com/ericlitman/open-pstack/issues/8)).
@@ -229,4 +227,4 @@ MIT. Three upstream LICENSE files are preserved:
 
 - [LICENSE](../LICENSE) — pstack (Lauren Tan)
 - [LICENSE-cursor-team-kit](../LICENSE-cursor-team-kit) — Cursor (covers the `deslop` and `thermo-nuclear-code-quality-review` skills)
-- [LICENSE-superpowers](../LICENSE-superpowers) — superpowers, Jesse Vincent (covers the vendored `hooks/run-hook.cmd`)
+- [LICENSE-superpowers](../LICENSE-superpowers) — superpowers, Jesse Vincent
