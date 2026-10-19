@@ -22,7 +22,7 @@
   "shared": [
     "plugins/pstack/.claude-plugin/plugin.json", "plugins/pstack/.codex-plugin/plugin.json",
     ".claude-plugin/marketplace.json", ".agents/plugins/marketplace.json",
-    "plugins/pstack/agents/**", "plugins/pstack/hooks/**",
+    "plugins/pstack/agents/**",
     "plugins/pstack/skills/poteto-mode/references/**"
   ],
   "assets": ["plugins/pstack/assets/**"],
