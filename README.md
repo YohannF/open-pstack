@@ -128,6 +128,7 @@ That is the main workflow. The other skills are there when poteto-mode needs the
 | `maintain-verification-skill` | The project's verification instructions no longer match the product. |
 | `create-formal-verification-skill` | A race, an invariant, or another property needs a proof that tests rarely reach. |
 | `maintain-formal-verification-skill` | The code a formal verification covers has changed, and you need to know whether a failure is drift or a bug. |
+| `statechart` | Someone who owns the behavior needs to see it, not read a spec: it checks a TLA+ model, draws what the user sees as a Mermaid statechart, and gives the shortest path to each state that breaks a rule. |
 | `babysit` | A pull request needs CI failures and review comments handled until it is ready. |
 | `reflect` | A hard task is finished and its lessons should improve the next run. |
 | `correct` | Agents keep making the same mistake in a repository and you want a check that stops it. |

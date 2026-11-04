@@ -3,6 +3,10 @@
 Open Pstack lands on green: Mergify merges a ready PR to main once verify and exact-head live-gate pass and no review thread is unresolved, and a workflow resolves Unfret's own threads. A PR that touches `.github/` or the Mergify config also waits for Unfret, and workflow changes require operator queueing.
 This port applies the Cursor → Claude Code substitutions in skill bodies. Earlier drafts left them flagged; this revision resolves them. A later pass added a Codex build that shares the same skills; see [Codex port](#codex-port) below.
 
+## 0.15.29-yohann.1 adds `/statechart`
+
+`/statechart` checks a TLA+ model with TLC and draws what the user sees as a Mermaid statechart, with the shortest path to each state that breaks a rule. The skill is Cursor pstack 0.15.36's tree, imported ahead of the sync point; see `UPSTREAM.md`. Its first run installs TLC and Java with mise, or reads `TLA2TOOLS` and `JAVA`. Generated formal verification skills read each TLA+ result with it, so it stays model-invocable.
+
 ## 0.15.29 (fork) merges open-pstack 1.16.0
 
 This fork merges open-pstack 1.16.0, which tracks Cursor pstack 0.15.29, in place of the fork's own 0.15.10 sync. The fork's two differences are re-ported onto the new setup text. Claude Code reads `pstack-models.md` on demand: `provider-dispatch.md` keeps its Loading the model sheet section, Arena, Architect, How, Interrogate, Swarm and poteto-mode's delegation defaults point at it, and setup writes only the sheet and removes a legacy `CLAUDE.md` import. Setup keeps a requested effort per role lane and probes every distinct pair. See `FORK.md`.

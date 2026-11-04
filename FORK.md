@@ -6,6 +6,7 @@ Personal fork of [ericlitman/open-pstack](https://github.com/ericlitman/open-pst
 
 - On Claude Code, the model sheet is read on demand when a configured role launches. Setup no longer imports it into `CLAUDE.md`, so sessions that never use pstack never load it. Codex keeps its `AGENTS.md` block.
 - `/setup-pstack` stores a requested effort per role lane. One family can run at `medium` in one role and `xhigh` in another, and setup probes every distinct pair.
+- `/statechart` is imported from Cursor pstack 0.15.36, ahead of the 0.15.29 sync point, and stays model-invocable (see `UPSTREAM.md`, Fork imports ahead of the sync point).
 
 ## Versions
 

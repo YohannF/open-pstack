@@ -10,7 +10,7 @@ open-pstack tracks [Cursor's pstack](https://github.com/cursor/plugins/tree/main
 | Path | `pstack/` |
 | Commit | `88d47514b82e7c44f00f2b2a72ff6dd12158038c` |
 | Upstream version | `0.15.29` |
-| open-pstack version | `0.15.29` |
+| open-pstack version | `0.15.29-yohann.1` |
 
 The table above is the current Cursor sync point. Open Pstack 1.16.0 imported this 0.15.29 sync; this fork merges 1.16.0 and uses Cursor's version number, see `FORK.md`. `README-UPSTREAM.md` preserves the upstream pstack README verbatim. `CHANGES.md` and `NOTICE.md` describe the adaptations and provenance.
 
@@ -40,6 +40,10 @@ The table above is the current Cursor sync point. Open Pstack 1.16.0 imported th
 - `create-formal-verification-skill` takes `4382e68` without its `disable-model-invocation: true` line, because setup's formal verification offer invokes it and the flag blocks that route on Claude Code. `tests/skill-collision-repro.sh` lists it in `routed_model_skills`. `maintain-formal-verification-skill` keeps the flag and runs only when typed.
 - Setup's verification offers are steps 10 and 11 in the port, after its step 9 smoke test. The port never took upstream's step 7, "Offer a verification skill", which upstream has carried since 0.11.3. This sync restores it as step 10, and `f9be7aa`'s formal verification offer becomes step 11. Each keeps upstream's check for a project that already has one.
 - `poteto-agent.md` does not take `b93e811`'s search of `~/.cursor/plugins/` for poteto-mode, its highest-version rule, or its note that the skill catalog hides poteto-mode. The Claude agent preloads `pstack:poteto-mode`, the port's poteto-mode is not hidden, and Codex has no `poteto-agent` type. The agent keeps upstream's "Use the absolute path your parent gave you."
+
+## Fork imports ahead of the sync point
+
+- **`statechart`** (YohannF fork): `plugins/pstack/skills/statechart/` is Cursor's tree at `bb68f2365eceafa0cb2d253112f675acf5f144cc` (0.15.36), from `eb4db2b`, `7698375`, `4ec7ffa`, `076f4b2`, `34b1b7c`, `740d2c0` and `519d36a`. `create-formal-verification-skill` takes `00d5dec`'s `/statechart` paragraph as revised at that commit, and `poteto-help`, `README.md` and `docs/reference.md` take its routing row. The skill drops `disable-model-invocation: true`, because generated formal verification skills read every model-check result with it, and the flag blocks that route on Claude Code; `tests/skill-collision-repro.sh` lists it in `routed_model_skills`. The other commits between the sync point and that commit are not imported. When the next upstream sync reaches 0.15.36, keep that sync's `statechart` tree and drop this entry.
 
 ## Local port-patch ledger
 
